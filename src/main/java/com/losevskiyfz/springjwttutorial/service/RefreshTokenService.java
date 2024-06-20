@@ -19,13 +19,12 @@ public class RefreshTokenService {
     private final UserRepository userRepository;
 
     public RefreshToken createRefreshToken(String username){
-        RefreshToken refreshToken = RefreshToken.builder()
+        RefreshToken refreshToken = new RefreshToken()
                 .user(userRepository.findByLogin(username)
                         .orElseThrow(()-> new NoSuchElementException("User not found"))
                 )
                 .token(UUID.randomUUID().toString())
-                .expiryTimestamp(Instant.now().plusMillis(600000))
-                .build();
+                .expiryTimestamp(Instant.now().plusMillis(600000));
         return refreshTokenRepository.save(refreshToken);
     }
 
@@ -35,9 +34,9 @@ public class RefreshTokenService {
     }
 
     public RefreshToken verifyExpiration(RefreshToken token){
-        if(token.getExpiryTimestamp().compareTo(Instant.now())<0){
+        if(token.expiryTimestamp().compareTo(Instant.now())<0){
             refreshTokenRepository.delete(token);
-            throw new RuntimeException(token.getToken() + " Refresh token is expired. Please make a new login..!");
+            throw new RuntimeException(token.token() + " Refresh token is expired. Please make a new login..!");
         }
         return token;
     }

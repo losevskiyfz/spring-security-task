@@ -36,7 +36,7 @@ public class AuthorizationController {
 
         if (authentication.isAuthenticated()) {
             RefreshToken refreshToken = refreshTokenService.createRefreshToken(authRequestDto.username());
-            return new JwtResponseDto(jwtService.generateToken(authRequestDto.username()), refreshToken.getToken());
+            return new JwtResponseDto(jwtService.generateToken(authRequestDto.username()), refreshToken.token());
         } else {
             throw new UsernameNotFoundException("invalid user request..!!");
         }
@@ -47,7 +47,7 @@ public class AuthorizationController {
     public JwtResponseDto refreshToken(@RequestBody RefreshTokenRequestDto refreshTokenRequestDTO) {
         return refreshTokenService.findByToken(refreshTokenRequestDTO.token())
                 .map(refreshTokenService::verifyExpiration)
-                .map(RefreshToken::getUser)
+                .map(RefreshToken::user)
                 .map(userInfo -> {
                     String accessToken = jwtService.generateToken(userInfo.getLogin());
                     return new JwtResponseDto(accessToken, refreshTokenRequestDTO.token());

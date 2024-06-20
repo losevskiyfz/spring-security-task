@@ -3,3 +3,10 @@ spring:
     name: spring-jwt-tutorial
   jpa:
     defer-datasource-initialization: true
+
+logging:
+  level:
+    org:
+      springframework:
+        security: DEBUG
+        security.core.userdetails.UserDetailsService: DEBUG
