@@ -1,8 +1,9 @@
-package com.losevskiyfz.springjwttutorial.security;
+package com.losevskiyfz.springjwttutorial.security.config;
 
 import com.losevskiyfz.springjwttutorial.repository.UserRepository;
+import com.losevskiyfz.springjwttutorial.security.filter.JwtAuthFilter;
 import com.losevskiyfz.springjwttutorial.service.UserDetailsServiceImpl;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,16 +25,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
+@AllArgsConstructor
 public class SecurityConfig{
 
     private final JwtAuthFilter jwtAuthFilter;
     private final UserRepository userRepository;
-
-    @Autowired
-    public SecurityConfig(JwtAuthFilter jwtAuthFilter, UserRepository userRepository) {
-        this.jwtAuthFilter = jwtAuthFilter;
-        this.userRepository = userRepository;
-    }
 
     @Bean
     public UserDetailsService userDetailsService() {
@@ -46,7 +42,7 @@ public class SecurityConfig{
                 .headers((headers) -> headers.frameOptions((HeadersConfigurer.FrameOptionsConfig::disable)))
                 .authorizeHttpRequests(
                         (authorize) -> authorize
-                                .requestMatchers("/h2-console/**", "/api/v1/auth/**", "/api/v1/user/register",
+                                .requestMatchers("/h2-console/**", "/api/v1/auth/**",
                                                  "/api/v1/test/user-only-access")
                                 .permitAll()
                                 .requestMatchers("/api/v1/user")

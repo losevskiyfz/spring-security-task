@@ -1,4 +1,4 @@
-package com.losevskiyfz.springjwttutorial.security;
+package com.losevskiyfz.springjwttutorial.security.userdetails;
 
 import com.losevskiyfz.springjwttutorial.model.Role;
 import com.losevskiyfz.springjwttutorial.model.User;

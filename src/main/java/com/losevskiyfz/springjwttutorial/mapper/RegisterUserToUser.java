@@ -1,6 +1,6 @@
 package com.losevskiyfz.springjwttutorial.mapper;
 
-import com.losevskiyfz.springjwttutorial.dto.RegisterUserDTO;
+import com.losevskiyfz.springjwttutorial.dto.RegisterUserDto;
 import com.losevskiyfz.springjwttutorial.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -14,6 +14,6 @@ public abstract class RegisterUserToUser {
     protected PasswordEncoder passwordEncoder;
 
     @Mapping(target = "password", expression = "java(passwordEncoder.encode(registerUserDTO.getPassword()))")
-    public abstract User toUser(RegisterUserDTO registerUserDTO);
+    public abstract User toUser(RegisterUserDto registerUserDTO);
 
 }
